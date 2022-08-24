@@ -1,5 +1,24 @@
 /* eslint-disable no-plusplus */
-import generateShip from './ship';
+function generateShip(shipLength) {
+  const ship = {
+    length: shipLength,
+    counter: [],
+    position: [],
+    hit: function () {
+      if (this.counter.length < shipLength) {
+        this.counter.push('hit');
+      }
+      return this.counter.length;
+    },
+    isSunk: function () {
+      if (this.counter.length === shipLength) {
+        return true;
+      }
+      return false;
+    },
+  };
+  return { ship };
+}
 
 function gameBoard() {
   const coordinates = [
@@ -24,16 +43,32 @@ function gameBoard() {
     9,
     10,
   ];
-  for (let i = 0; i < coordinates.length; i++) {
-    if (i === 'C') {
-      const biggestShip = generateShip(5);
-      for (let j = 0; j < biggestShip.ship.length; j++) {
-        biggestShip.position.push(coordinates[i]);
-      }
-      console.log(biggestShip.ship.position);
+  const alphabet = 'A';
+  const newCoordinates = [];
+  for (let i = 1; i <= 10; i++) {
+    const letters = String.fromCharCode(alphabet.charCodeAt(0) + (i - 1));
+    for (let j = 1; j <= 10; j++) {
+      newCoordinates.push([letters, j]);
+    }
+  }
+
+  return { newCoordinates };
+}
+
+const attackCoordinates = JSON.stringify(['F', 3]);
+const newShip = generateShip(4);
+const newGameBoard = gameBoard();
+console.log(newGameBoard.newCoordinates[0]);
+for (let i = 0; i < newGameBoard.newCoordinates.length; i++) {
+  if (JSON.stringify(newGameBoard.newCoordinates[i]) === attackCoordinates) {
+    for (let j = 0; j < newShip.ship.length; j++) {
+      newShip.ship.position.push(newGameBoard.newCoordinates[i]);
+      i++;
     }
   }
 }
-gameBoard();
-
+if (JSON.stringify(newGameBoard.newCoordinates[0]) === attackCoordinates) {
+  console.log(newGameBoard.newCoordinates[0]);
+}
+console.log(newShip.ship.position);
 module.exports = gameBoard;
