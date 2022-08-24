@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import generateShip from './ship';
 
 function gameBoard() {
@@ -33,3 +34,6 @@ function gameBoard() {
     }
   }
 }
+gameBoard();
+
+module.exports = gameBoard;

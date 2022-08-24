@@ -1,4 +1,3 @@
-import generateJoke from './generateJoke';
 import './style/main.scss';
 import laughing from './assets/laughing.jpg';
 
