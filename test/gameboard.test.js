@@ -13,11 +13,12 @@ test('place ship at spacific coorinates', () => {
       }
     }
   }
-  expect(newShip.ship.position).toBe([
-    ['F', 3],
-    ['F', 4],
-    ['F', 5],
-    ['F', 6],
-    ['F', 7],
-  ]);
+  expect(JSON.stringify(newShip.ship.position)).toBe(
+    JSON.stringify([
+      ['F', 3],
+      ['F', 4],
+      ['F', 5],
+      ['F', 6],
+    ])
+  );
 });
