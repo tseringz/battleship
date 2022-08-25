@@ -67,8 +67,5 @@ for (let i = 0; i < newGameBoard.newCoordinates.length; i++) {
     }
   }
 }
-if (JSON.stringify(newGameBoard.newCoordinates[0]) === attackCoordinates) {
-  console.log(newGameBoard.newCoordinates[0]);
-}
 console.log(newShip.ship.position);
 module.exports = gameBoard;
