@@ -50,7 +50,28 @@ test('check if a ship get sunk', () => {
         newShip.ship.hit();
       }
     } else {
-      missCoordinates.push('missed');
+      missCoordinates.push('missed cooridinates');
+    }
+  }
+  if (newShip.ship.counter.length === 5) {
+    return 'Game Over';
+  }
+  expect(newShip.ship.counter.length).toBe(5);
+});
+
+test('check if a ship get sunk', () => {
+  const attackCoordinates = JSON.stringify(['F', 3]);
+  const missCoordinates = [];
+  const shipLength = 5;
+  const newShip = generateShip(shipLength);
+  const newGameBoard = gameBoard();
+  for (let i = 0; i < newGameBoard.newCoordinates.length; i++) {
+    if (JSON.stringify(newGameBoard.newCoordinates[i]) === attackCoordinates) {
+      for (let j = 0; j < newShip.ship.length; j++) {
+        newShip.ship.hit();
+      }
+    } else {
+      missCoordinates.push('missed cooridinates');
     }
   }
   if (newShip.ship.counter.length === 5) {
