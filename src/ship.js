@@ -4,9 +4,9 @@ function generateShip(shipLength) {
     length: shipLength,
     counter: [],
     position: [],
-    hit: function () {
+    hit: function (hitCoordinate) {
       if (this.counter.length < shipLength) {
-        this.counter.push('hit');
+        this.counter.push(hitCoordinate);
       }
       return this.counter.length;
     },

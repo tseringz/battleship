@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import './style/main.scss';
 import laughing from './assets/laughing.jpg';
 
@@ -6,4 +7,3 @@ const laughingImg = document.getElementById('laughImg');
 laughingImg.src = laughing;
 
 console.log('Hi this is crazy');
-generateJoke();
