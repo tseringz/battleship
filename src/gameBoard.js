@@ -162,17 +162,15 @@ function gameBoard() {
 }
 gameBoard();
 let allGrid = document.querySelectorAll('.grid-player > div');
-const randomNumber = [0];
+const randomNumber = [];
 
 function player() {
   allGrid = document.querySelectorAll('.grid-player > div');
-  const computer = Math.floor(Math.random() * 100); // Generate random number to attack the random coordinates
-  for (let k = 0; k < randomNumber.length; k++) {
-    if (randomNumber[k] !== computer) {
-      randomNumber.push(computer);
-      break;
-    }
+  let computer = Math.floor(Math.random() * 100); // const computer = Math.floor(Math.random() * 100); // Generate random number to attack the random coordinates
+  while (randomNumber.includes(computer)) {
+    computer = Math.floor(Math.random() * 100);
   }
+  randomNumber.push(computer);
   console.log(randomNumber);
   this.style.backgroundColor = 'blue';
   for (let k = 0; k < allGrid.length; k++) {
