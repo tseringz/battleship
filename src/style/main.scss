@@ -23,12 +23,22 @@ body {
 
 .container {
   background-color: $secondary-color;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   border-radius: 10px;
   box-shadow: $box-shadow;
   padding: 50px 20px;
   text-align: center;
   max-width: 100%;
-  width: 800px;
+  width: 1040px;
+}
+
+.grid-player,.grid-computer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
 }
 
 h3 {
@@ -42,12 +52,9 @@ img {
   margin-bottom: 20px;
 }
 
-.joke {
-  font-size: 30px;
-  letter-spacing: 1px;
-  line-height: 40px;
-  margin: 50px auto;
-  max-width: 600px;
+.grid-player,.grid-computer {
+  width: 400px;
+  height: 400px;
 }
 
 .btn {

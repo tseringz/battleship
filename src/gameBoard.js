@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 /* eslint-disable no-plusplus */
 function generateShip(shipLength) {
   const ship = {
@@ -160,26 +158,59 @@ function gameBoard() {
   console.log(missedCoordinates);
   console.log(occupiedCoordinates);
   console.log(smallShip.ship.counter);
-  return { newCoordinates, biggestShip };
+  return { newCoordinates, biggestShip, receiveAttack };
 }
 gameBoard();
+let allGrid = document.querySelectorAll('.grid-player > div');
+const randomNumber = [0];
 
 function player() {
-  let counter = 0;
-  let playerOne;
-  let computer;
+  allGrid = document.querySelectorAll('.grid-player > div');
+  const computer = Math.floor(Math.random() * 100); // Generate random number to attack the random coordinates
+  for (let k = 0; k < randomNumber.length; k++) {
+    if (randomNumber[k] !== computer) {
+      randomNumber.push(computer);
+      break;
+    }
+  }
+  console.log(randomNumber);
+  this.style.backgroundColor = 'blue';
+  for (let k = 0; k < allGrid.length; k++) {
+    if (
+      allGrid[k].getAttribute('data-id') ===
+      String(randomNumber[randomNumber.length - 1])
+    ) {
+      allGrid[k].style.backgroundColor = 'black';
+    }
+  }
+}
+
+function gameLoop() {
+  const gridPlayerBoard = document.querySelector('.grid-player');
+  const gridComputerBoard = document.querySelector('.grid-computer');
   const playerGameBoard = gameBoard();
   const computerGameBoard = gameBoard();
 
-  if (counter % 2 === 0) {
-    playerOne = playerGameBoard.receiveAttack(['C', 9]);
-    counter++;
-  } else {
-    computer = computerGameBoard.receiveAttack(['C', 9]);
-    counter++;
+  for (let i = 0; i < playerGameBoard.newCoordinates.length; i++) {
+    const newDiv = document.createElement('div');
+    newDiv.setAttribute('data-id', i);
+    newDiv.style.width = '10%';
+    newDiv.style.height = '10%';
+    newDiv.style.border = '1px solid black';
+    gridPlayerBoard.appendChild(newDiv);
+  }
+
+  for (let j = 0; j < computerGameBoard.newCoordinates.length; j++) {
+    const newCoord = document.createElement('div');
+    newCoord.setAttribute('data-id', j);
+    newCoord.style.width = '10%';
+    newCoord.style.height = '10%';
+    newCoord.style.border = '1px solid black';
+    newCoord.addEventListener('click', player);
+    gridComputerBoard.appendChild(newCoord);
   }
 }
-player();
-// { name: 'cherries', quantity: 5 }
+gameLoop();
 
+export default gameLoop;
 module.exports = gameBoard;
