@@ -2,21 +2,227 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/generatejoke.js":
-/*!*****************************!*\
-  !*** ./src/generatejoke.js ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "./src/gameBoard.js":
+/*!**************************!*\
+  !*** ./src/gameBoard.js ***!
+  \**************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function generatejoke() {
-  return "I'dont like to generatejoke on your computer but I'm not sure how to generatejoke";
+/* module decorator */ module = __webpack_require__.hmd(module);
+/* eslint-disable no-plusplus */
+function generateShip(shipLength) {
+  var ship = {
+    length: shipLength,
+    counter: [],
+    position: [],
+    hit: function hit(attackCoordinates) {
+      if (this.counter.length < shipLength) {
+        this.counter.push(attackCoordinates);
+      }
+
+      return this.counter.length;
+    },
+    isSunk: function isSunk() {
+      if (this.counter.length === shipLength) {
+        return true;
+      }
+
+      return false;
+    }
+  };
+  return {
+    ship: ship
+  };
 }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (generatejoke);
+function gameBoard() {
+  var alphabet = 'A';
+  var newCoordinates = [];
+  var missedCoordinates = [];
+  var occupiedCoordinates = [];
+  var counter = 3;
+  var biggestShip = generateShip(5);
+  var biggerShip = generateShip(4);
+  var bigShip = generateShip(3);
+  var smallShip = generateShip(2);
+  var smallerShip = generateShip(1);
+  var shipCoordinates = ['B', 9]; // Generate game board by giving coordinates to each position because of to track coordinates
+
+  for (var i = 1; i <= 10; i++) {
+    var letters = String.fromCharCode(alphabet.charCodeAt(0) + (i - 1));
+
+    for (var j = 1; j <= 10; j++) {
+      newCoordinates.push([letters, j]);
+    }
+  } // Placing ships at specific coordinates
+
+
+  for (var _i = 0; _i < newCoordinates.length; _i++) {
+    if (JSON.stringify(shipCoordinates) === JSON.stringify(newCoordinates[_i])) {
+      counter++;
+
+      if (counter === 1) {
+        for (var _j = 0; _j < biggestShip.ship.length; _j++) {
+          // Place first ship at specific coordinates
+          biggestShip.ship.position.push(newCoordinates[_i]);
+          occupiedCoordinates.push(newCoordinates[_i]);
+          _i++;
+        }
+      } else if (counter === 2) {
+        // Place second ship at specific coordinates
+        for (var _j2 = 0; _j2 < biggerShip.ship.length; _j2++) {
+          biggerShip.ship.position.push(newCoordinates[_i]);
+          occupiedCoordinates.push(newCoordinates[_i]);
+          _i++;
+        }
+      } else if (counter === 3) {
+        // Place third ship at specific coordinates
+        for (var _j3 = 0; _j3 < bigShip.ship.length; _j3++) {
+          bigShip.ship.position.push(newCoordinates[_i]);
+          occupiedCoordinates.push(newCoordinates[_i]);
+          _i++;
+        }
+      } else if (counter === 4) {
+        // Place third ship at specific coordinates
+        for (var _j4 = 0; _j4 < smallShip.ship.length; _j4++) {
+          smallShip.ship.position.push(newCoordinates[_i]);
+          occupiedCoordinates.push(newCoordinates[_i]);
+          _i++;
+        }
+      } else if (counter === 5) {
+        // Place third ship at specific coordinates
+        for (var _j5 = 0; _j5 < smallerShip.ship.length; _j5++) {
+          smallerShip.ship.position.push(newCoordinates[_i]);
+          occupiedCoordinates.push(newCoordinates[_i]);
+          _i++;
+        }
+      }
+    }
+  }
+
+  function receiveAttack(attackCoordinates) {
+    // Check if first ship hit
+    for (var k = 0; k < biggestShip.ship.length; k++) {
+      if (JSON.stringify(biggestShip.ship.position[k]) === JSON.stringify(attackCoordinates)) {
+        biggestShip.ship.hit(attackCoordinates);
+      }
+    } // Check if second Ship hit
+
+
+    for (var _k = 0; _k < biggerShip.ship.length; _k++) {
+      if (JSON.stringify(biggerShip.ship.position[_k]) === JSON.stringify(attackCoordinates)) {
+        biggerShip.ship.hit(attackCoordinates);
+      }
+    } // Check if third Ship hit
+
+
+    for (var _k2 = 0; _k2 < bigShip.ship.length; _k2++) {
+      if (JSON.stringify(bigShip.ship.position[_k2]) === JSON.stringify(attackCoordinates)) {
+        bigShip.ship.hit(attackCoordinates);
+      }
+    } // Check if forth Ship hit
+
+
+    for (var _k3 = 0; _k3 < smallShip.ship.length; _k3++) {
+      if (JSON.stringify(smallShip.ship.position[_k3]) === JSON.stringify(attackCoordinates)) {
+        smallShip.ship.hit(attackCoordinates);
+      }
+    } // Check if fifth Ship hit
+
+
+    for (var _k4 = 0; _k4 < smallerShip.ship.length; _k4++) {
+      if (JSON.stringify(smallerShip.ship.position[_k4]) === JSON.stringify(attackCoordinates)) {
+        smallerShip.ship.hit(attackCoordinates);
+      }
+    }
+
+    var convertString = occupiedCoordinates.map(JSON.stringify);
+
+    function isCoordinates(newCoord) {
+      return newCoord === JSON.stringify(attackCoordinates);
+    }
+
+    var isCoord = convertString.find(isCoordinates);
+    console.log(isCoord);
+
+    if (isCoord === undefined) {
+      missedCoordinates.push(attackCoordinates);
+    }
+  }
+
+  receiveAttack(['C', 9]); // check if all the ship have been sunk
+
+  if (biggestShip.ship.isSunk === true && biggerShip.ship.isSunk === true && bigShip.ship.isSunk === true && smallShip.ship.isSunk === true && smallerShip.ship.isSunk === true) {
+    console.log('Game Over!!');
+  }
+
+  console.log(smallShip.ship.position);
+  console.log(missedCoordinates);
+  console.log(occupiedCoordinates);
+  console.log(smallShip.ship.counter);
+  return {
+    newCoordinates: newCoordinates,
+    biggestShip: biggestShip,
+    receiveAttack: receiveAttack
+  };
+}
+
+gameBoard();
+var allGrid = document.querySelectorAll('.grid-player > div');
+var randomNumber = [];
+
+function player() {
+  allGrid = document.querySelectorAll('.grid-player > div');
+  var computer = Math.floor(Math.random() * 100); // const computer = Math.floor(Math.random() * 100); // Generate random number to attack the random coordinates
+
+  while (randomNumber.includes(computer)) {
+    computer = Math.floor(Math.random() * 100);
+  }
+
+  randomNumber.push(computer);
+  console.log(randomNumber);
+  this.style.backgroundColor = 'blue';
+
+  for (var k = 0; k < allGrid.length; k++) {
+    if (allGrid[k].getAttribute('data-id') === String(randomNumber[randomNumber.length - 1])) {
+      allGrid[k].style.backgroundColor = 'black';
+    }
+  }
+}
+
+function gameLoop() {
+  var gridPlayerBoard = document.querySelector('.grid-player');
+  var gridComputerBoard = document.querySelector('.grid-computer');
+  var playerGameBoard = gameBoard();
+  var computerGameBoard = gameBoard();
+
+  for (var i = 0; i < playerGameBoard.newCoordinates.length; i++) {
+    var newDiv = document.createElement('div');
+    newDiv.setAttribute('data-id', i);
+    newDiv.style.width = '10%';
+    newDiv.style.height = '10%';
+    newDiv.style.border = '1px solid black';
+    gridPlayerBoard.appendChild(newDiv);
+  }
+
+  for (var j = 0; j < computerGameBoard.newCoordinates.length; j++) {
+    var newCoord = document.createElement('div');
+    newCoord.setAttribute('data-id', j);
+    newCoord.style.width = '10%';
+    newCoord.style.height = '10%';
+    newCoord.style.border = '1px solid black';
+    newCoord.addEventListener('click', player);
+    gridComputerBoard.appendChild(newCoord);
+  }
+}
+
+gameLoop();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (gameLoop);
+module.exports = gameBoard;
 
 /***/ }),
 
@@ -40,7 +246,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: #2fa8cc;\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 100vh;\n  overflow: hidden;\n  margin: 0;\n  padding: 20px;\n}\n\n.container {\n  background-color: #f4f4f4;\n  border-radius: 10px;\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\n  padding: 50px 20px;\n  text-align: center;\n  max-width: 100%;\n  width: 800px;\n}\n\nh3 {\n  margin: 0;\n  opacity: 0.5;\n  letter-spacing: 2px;\n}\n\nimg {\n  width: 100px;\n  margin-bottom: 20px;\n}\n\n.joke {\n  font-size: 30px;\n  letter-spacing: 1px;\n  line-height: 40px;\n  margin: 50px auto;\n  max-width: 600px;\n}\n\n.btn {\n  background-color: #2fa8cc;\n  color: #f4f4f4;\n  border: 0;\n  border-radius: 10px;\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\n  padding: 14px 40px;\n  font-size: 16px;\n  cursor: pointer;\n}\n.btn:active {\n  transform: scale(0.98);\n}\n.btn:focus {\n  outline: 0;\n}", "",{"version":3,"sources":["webpack://./src/style/main.scss"],"names":[],"mappings":"AAMA;EACE,sBAAA;AAJF;;AAOA;EACE,yBATc;EAUd,iCAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,uBAAA;EACA,aAAA;EACA,gBAAA;EACA,SAAA;EACA,aAAA;AAJF;;AAOA;EACE,yBArBgB;EAsBhB,mBAAA;EACA,wEAtBW;EAuBX,kBAAA;EACA,kBAAA;EACA,eAAA;EACA,YAAA;AAJF;;AAOA;EACE,SAAA;EACA,YAAA;EACA,mBAAA;AAJF;;AAOA;EACE,YAAA;EACA,mBAAA;AAJF;;AAOA;EACE,eAAA;EACA,mBAAA;EACA,iBAAA;EACA,iBAAA;EACA,gBAAA;AAJF;;AAOA;EACE,yBAnDc;EAoDd,cAnDgB;EAoDhB,SAAA;EACA,mBAAA;EACA,uEAAA;EACA,kBAAA;EACA,eAAA;EACA,eAAA;AAJF;AAME;EACE,sBAAA;AAJJ;AAOE;EACE,UAAA;AALJ","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');\n\n$primary-color: #2fa8cc;\n$secondary-color: #f4f4f4;\n$box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\n\n* {\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: $primary-color;\n  font-family: 'Roboto', sans-serif;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 100vh;\n  overflow: hidden;\n  margin: 0;\n  padding: 20px;\n}\n\n.container {\n  background-color: $secondary-color;\n  border-radius: 10px;\n  box-shadow: $box-shadow;\n  padding: 50px 20px;\n  text-align: center;\n  max-width: 100%;\n  width: 800px;\n}\n\nh3 {\n  margin: 0;\n  opacity: 0.5;\n  letter-spacing: 2px;\n}\n\nimg {\n  width: 100px;\n  margin-bottom: 20px;\n}\n\n.joke {\n  font-size: 30px;\n  letter-spacing: 1px;\n  line-height: 40px;\n  margin: 50px auto;\n  max-width: 600px;\n}\n\n.btn {\n  background-color: $primary-color;\n  color: $secondary-color;\n  border: 0;\n  border-radius: 10px;\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\n  padding: 14px 40px;\n  font-size: 16px;\n  cursor: pointer;\n\n  &:active {\n    transform: scale(0.98);\n  }\n\n  &:focus {\n    outline: 0;\n  }\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: #2fa8cc;\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 100vh;\n  overflow: hidden;\n  margin: 0;\n  padding: 20px;\n}\n\n.container {\n  background-color: #f4f4f4;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  border-radius: 10px;\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\n  padding: 50px 20px;\n  text-align: center;\n  max-width: 100%;\n  width: 1040px;\n}\n\n.grid-player, .grid-computer {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n\nh3 {\n  margin: 0;\n  opacity: 0.5;\n  letter-spacing: 2px;\n}\n\nimg {\n  width: 100px;\n  margin-bottom: 20px;\n}\n\n.grid-player, .grid-computer {\n  width: 400px;\n  height: 400px;\n}\n\n.btn {\n  background-color: #2fa8cc;\n  color: #f4f4f4;\n  border: 0;\n  border-radius: 10px;\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\n  padding: 14px 40px;\n  font-size: 16px;\n  cursor: pointer;\n}\n.btn:active {\n  transform: scale(0.98);\n}\n.btn:focus {\n  outline: 0;\n}", "",{"version":3,"sources":["webpack://./src/style/main.scss"],"names":[],"mappings":"AAMA;EACE,sBAAA;AAJF;;AAOA;EACE,yBATc;EAUd,iCAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,uBAAA;EACA,aAAA;EACA,gBAAA;EACA,SAAA;EACA,aAAA;AAJF;;AAOA;EACE,yBArBgB;EAsBhB,aAAA;EACA,mBAAA;EACA,8BAAA;EACA,mBAAA;EACA,wEAzBW;EA0BX,kBAAA;EACA,kBAAA;EACA,eAAA;EACA,aAAA;AAJF;;AAOA;EACE,aAAA;EACA,mBAAA;EACA,eAAA;AAJF;;AAQA;EACE,SAAA;EACA,YAAA;EACA,mBAAA;AALF;;AAQA;EACE,YAAA;EACA,mBAAA;AALF;;AAQA;EACE,YAAA;EACA,aAAA;AALF;;AAQA;EACE,yBA1Dc;EA2Dd,cA1DgB;EA2DhB,SAAA;EACA,mBAAA;EACA,uEAAA;EACA,kBAAA;EACA,eAAA;EACA,eAAA;AALF;AAOE;EACE,sBAAA;AALJ;AAQE;EACE,UAAA;AANJ","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');\n\n$primary-color: #2fa8cc;\n$secondary-color: #f4f4f4;\n$box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\n\n* {\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: $primary-color;\n  font-family: 'Roboto', sans-serif;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 100vh;\n  overflow: hidden;\n  margin: 0;\n  padding: 20px;\n}\n\n.container {\n  background-color: $secondary-color;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  border-radius: 10px;\n  box-shadow: $box-shadow;\n  padding: 50px 20px;\n  text-align: center;\n  max-width: 100%;\n  width: 1040px;\n}\n\n.grid-player,.grid-computer {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n\n}\n\nh3 {\n  margin: 0;\n  opacity: 0.5;\n  letter-spacing: 2px;\n}\n\nimg {\n  width: 100px;\n  margin-bottom: 20px;\n}\n\n.grid-player,.grid-computer {\n  width: 400px;\n  height: 400px;\n}\n\n.btn {\n  background-color: $primary-color;\n  color: $secondary-color;\n  border: 0;\n  border-radius: 10px;\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\n  padding: 14px 40px;\n  font-size: 16px;\n  cursor: pointer;\n\n  &:active {\n    transform: scale(0.98);\n  }\n\n  &:focus {\n    outline: 0;\n  }\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -547,16 +753,6 @@ function styleTagTransform(css, styleElement) {
 
 module.exports = styleTagTransform;
 
-/***/ }),
-
-/***/ "./src/assets/laughing.jpg":
-/*!*********************************!*\
-  !*** ./src/assets/laughing.jpg ***!
-  \*********************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "laughing.jpg";
-
 /***/ })
 
 /******/ 	});
@@ -574,12 +770,15 @@ module.exports = __webpack_require__.p + "laughing.jpg";
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
 /******/ 			id: moduleId,
-/******/ 			// no module.loaded needed
+/******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -610,16 +809,19 @@ module.exports = __webpack_require__.p + "laughing.jpg";
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/global */
+/******/ 	/* webpack/runtime/harmony module decorator */
 /******/ 	(() => {
-/******/ 		__webpack_require__.g = (function() {
-/******/ 			if (typeof globalThis === 'object') return globalThis;
-/******/ 			try {
-/******/ 				return this || new Function('return this')();
-/******/ 			} catch (e) {
-/******/ 				if (typeof window === 'object') return window;
-/******/ 			}
-/******/ 		})();
+/******/ 		__webpack_require__.hmd = (module) => {
+/******/ 			module = Object.create(module);
+/******/ 			if (!module.children) module.children = [];
+/******/ 			Object.defineProperty(module, 'exports', {
+/******/ 				enumerable: true,
+/******/ 				set: () => {
+/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
+/******/ 				}
+/******/ 			});
+/******/ 			return module;
+/******/ 		};
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -638,26 +840,6 @@ module.exports = __webpack_require__.p + "laughing.jpg";
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/publicPath */
-/******/ 	(() => {
-/******/ 		var scriptUrl;
-/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
-/******/ 		var document = __webpack_require__.g.document;
-/******/ 		if (!scriptUrl && document) {
-/******/ 			if (document.currentScript)
-/******/ 				scriptUrl = document.currentScript.src
-/******/ 			if (!scriptUrl) {
-/******/ 				var scripts = document.getElementsByTagName("script");
-/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
-/******/ 			}
-/******/ 		}
-/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
-/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
-/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
-/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
-/******/ 		__webpack_require__.p = scriptUrl;
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/nonce */
 /******/ 	(() => {
 /******/ 		__webpack_require__.nc = undefined;
@@ -671,15 +853,13 @@ var __webpack_exports__ = {};
   !*** ./src/index.js ***!
   \**********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _generatejoke__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./generatejoke */ "./src/generatejoke.js");
-/* harmony import */ var _style_main_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style/main.scss */ "./src/style/main.scss");
-/* harmony import */ var _assets_laughing_jpg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./assets/laughing.jpg */ "./src/assets/laughing.jpg");
+/* harmony import */ var _style_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style/main.scss */ "./src/style/main.scss");
+/* harmony import */ var _gameBoard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gameBoard */ "./src/gameBoard.js");
 
 
-
-console.log((0,_generatejoke__WEBPACK_IMPORTED_MODULE_0__["default"])());
+console.log('Hi this is crazy');
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=mainf99f787cabf64ebb47a2.js.map
+//# sourceMappingURL=mainfb495b64e1e704a9f451.js.map

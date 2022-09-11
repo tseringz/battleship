@@ -19,19 +19,17 @@ function generateShip(shipLength) {
   };
   return { ship };
 }
+const missedCoordinates = [];
+const occupiedCoordinates = [];
 
 function gameBoard() {
   const alphabet = 'A';
   const newCoordinates = [];
-  const missedCoordinates = [];
-  const occupiedCoordinates = [];
-  let counter = 3;
   const biggestShip = generateShip(5);
   const biggerShip = generateShip(4);
   const bigShip = generateShip(3);
   const smallShip = generateShip(2);
   const smallerShip = generateShip(1);
-  const shipCoordinates = ['B', 9];
 
   // Generate game board by giving coordinates to each position because of to track coordinates
   for (let i = 1; i <= 10; i++) {
@@ -41,49 +39,21 @@ function gameBoard() {
     }
   }
 
+  const shipCoordinates = newCoordinates[Math.floor(Math.random() * 100)];
+
   // Placing ships at specific coordinates
   for (let i = 0; i < newCoordinates.length; i++) {
     if (JSON.stringify(shipCoordinates) === JSON.stringify(newCoordinates[i])) {
-      counter++;
-      if (counter === 1) {
-        for (let j = 0; j < biggestShip.ship.length; j++) {
-          // Place first ship at specific coordinates
-          biggestShip.ship.position.push(newCoordinates[i]);
-          occupiedCoordinates.push(newCoordinates[i]);
-          i++;
-        }
-      } else if (counter === 2) {
-        // Place second ship at specific coordinates
-        for (let j = 0; j < biggerShip.ship.length; j++) {
-          biggerShip.ship.position.push(newCoordinates[i]);
-          occupiedCoordinates.push(newCoordinates[i]);
-          i++;
-        }
-      } else if (counter === 3) {
-        // Place third ship at specific coordinates
-        for (let j = 0; j < bigShip.ship.length; j++) {
-          bigShip.ship.position.push(newCoordinates[i]);
-          occupiedCoordinates.push(newCoordinates[i]);
-          i++;
-        }
-      } else if (counter === 4) {
-        // Place third ship at specific coordinates
-        for (let j = 0; j < smallShip.ship.length; j++) {
-          smallShip.ship.position.push(newCoordinates[i]);
-          occupiedCoordinates.push(newCoordinates[i]);
-          i++;
-        }
-      } else if (counter === 5) {
-        // Place third ship at specific coordinates
-        for (let j = 0; j < smallerShip.ship.length; j++) {
-          smallerShip.ship.position.push(newCoordinates[i]);
-          occupiedCoordinates.push(newCoordinates[i]);
-          i++;
-        }
+      for (let j = 0; j < biggestShip.ship.length; j++) {
+        // Place first ship at specific coordinates
+        biggestShip.ship.position.push(newCoordinates[i]);
+        occupiedCoordinates.push(newCoordinates[i]);
+        i++;
       }
     }
   }
-
+  console.log(occupiedCoordinates);
+  console.log(shipCoordinates);
   function receiveAttack(attackCoordinates) {
     // Check if first ship hit
     for (let k = 0; k < biggestShip.ship.length; k++) {
@@ -160,18 +130,20 @@ function gameBoard() {
   console.log(smallShip.ship.counter);
   return { newCoordinates, biggestShip, receiveAttack };
 }
-gameBoard();
+
 let allGrid = document.querySelectorAll('.grid-player > div');
 const randomNumber = [];
 
 function player() {
   allGrid = document.querySelectorAll('.grid-player > div');
-  let computer = Math.floor(Math.random() * 100); // const computer = Math.floor(Math.random() * 100); // Generate random number to attack the random coordinates
+  let computer = Math.floor(Math.random() * 100);
+  let attackColor; // const computer = Math.floor(Math.random() * 100); // Generate random number to attack the random coordinates
   while (randomNumber.includes(computer)) {
     computer = Math.floor(Math.random() * 100);
   }
   randomNumber.push(computer);
   console.log(randomNumber);
+  console.log(this.getAttribute('id'));
   this.style.backgroundColor = 'blue';
   for (let k = 0; k < allGrid.length; k++) {
     if (
@@ -179,6 +151,14 @@ function player() {
       String(randomNumber[randomNumber.length - 1])
     ) {
       allGrid[k].style.backgroundColor = 'black';
+      for (let m = 0; m < occupiedCoordinates.length; m++) {
+        if (
+          JSON.stringify(occupiedCoordinates[m]) ===
+          allGrid[k].getAttribute('id')
+        ) {
+          allGrid[k].style.backgroundColor = 'red';
+        }
+      }
     }
   }
 }
@@ -192,6 +172,10 @@ function gameLoop() {
   for (let i = 0; i < playerGameBoard.newCoordinates.length; i++) {
     const newDiv = document.createElement('div');
     newDiv.setAttribute('data-id', i);
+    newDiv.setAttribute(
+      'id',
+      JSON.stringify(playerGameBoard.newCoordinates[i])
+    );
     newDiv.style.width = '10%';
     newDiv.style.height = '10%';
     newDiv.style.border = '1px solid black';
@@ -201,6 +185,10 @@ function gameLoop() {
   for (let j = 0; j < computerGameBoard.newCoordinates.length; j++) {
     const newCoord = document.createElement('div');
     newCoord.setAttribute('data-id', j);
+    newCoord.setAttribute(
+      'id',
+      JSON.stringify(computerGameBoard.newCoordinates[j])
+    );
     newCoord.style.width = '10%';
     newCoord.style.height = '10%';
     newCoord.style.border = '1px solid black';
