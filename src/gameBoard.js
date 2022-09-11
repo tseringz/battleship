@@ -166,29 +166,22 @@ function player() {
 function gameLoop() {
   const gridPlayerBoard = document.querySelector('.grid-player');
   const gridComputerBoard = document.querySelector('.grid-computer');
-  const playerGameBoard = gameBoard();
-  const computerGameBoard = gameBoard();
+  const newGameBoard = gameBoard();
 
-  for (let i = 0; i < playerGameBoard.newCoordinates.length; i++) {
+  for (let i = 0; i < newGameBoard.newCoordinates.length; i++) {
     const newDiv = document.createElement('div');
     newDiv.setAttribute('data-id', i);
-    newDiv.setAttribute(
-      'id',
-      JSON.stringify(playerGameBoard.newCoordinates[i])
-    );
+    newDiv.setAttribute('id', JSON.stringify(newGameBoard.newCoordinates[i]));
     newDiv.style.width = '10%';
     newDiv.style.height = '10%';
     newDiv.style.border = '1px solid black';
     gridPlayerBoard.appendChild(newDiv);
   }
 
-  for (let j = 0; j < computerGameBoard.newCoordinates.length; j++) {
+  for (let j = 0; j < newGameBoard.newCoordinates.length; j++) {
     const newCoord = document.createElement('div');
     newCoord.setAttribute('data-id', j);
-    newCoord.setAttribute(
-      'id',
-      JSON.stringify(computerGameBoard.newCoordinates[j])
-    );
+    newCoord.setAttribute('id', JSON.stringify(newGameBoard.newCoordinates[j]));
     newCoord.style.width = '10%';
     newCoord.style.height = '10%';
     newCoord.style.border = '1px solid black';
