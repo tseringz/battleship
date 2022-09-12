@@ -34,7 +34,7 @@ body {
   width: 1040px;
 }
 
-.grid-player,.grid-computer {
+.grid-player,.grid-computer,.placement-grid {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -52,7 +52,7 @@ img {
   margin-bottom: 20px;
 }
 
-.grid-player,.grid-computer {
+.grid-player,.grid-computer,.placement-grid {
   width: 400px;
   height: 400px;
 }
@@ -73,5 +73,27 @@ img {
 
   &:focus {
     outline: 0;
+  }
+}
+
+.modal-wrapper {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 999;
+
+  .modal {
+    background-color: #f4f4f4;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }

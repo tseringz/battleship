@@ -145,6 +145,12 @@ function player() {
   console.log(randomNumber);
   console.log(this.getAttribute('id'));
   this.style.backgroundColor = 'blue';
+  for (let n = 0; n < occupiedCoordinates.length; n++) {
+    if (JSON.stringify(occupiedCoordinates[n]) === this.getAttribute('id')) {
+      this.style.backgroundColor = 'red';
+    }
+  }
+
   for (let k = 0; k < allGrid.length; k++) {
     if (
       allGrid[k].getAttribute('data-id') ===
@@ -166,7 +172,18 @@ function player() {
 function gameLoop() {
   const gridPlayerBoard = document.querySelector('.grid-player');
   const gridComputerBoard = document.querySelector('.grid-computer');
+  const gridPlacement = document.querySelector('.placement-grid');
   const newGameBoard = gameBoard();
+
+  for (let p = 0; p < newGameBoard.newCoordinates.length; p++) {
+    const newDiv = document.createElement('div');
+    newDiv.setAttribute('data-id', p);
+    newDiv.setAttribute('id', JSON.stringify(newGameBoard.newCoordinates[p]));
+    newDiv.style.width = '10%';
+    newDiv.style.height = '10%';
+    newDiv.style.border = '1px solid black';
+    gridPlacement.appendChild(newDiv);
+  }
 
   for (let i = 0; i < newGameBoard.newCoordinates.length; i++) {
     const newDiv = document.createElement('div');
