@@ -28,8 +28,8 @@ function gameBoard() {
   const biggestShip = generateShip(5);
   const biggerShip = generateShip(4);
   const bigShip = generateShip(3);
-  const smallShip = generateShip(2);
-  const smallerShip = generateShip(1);
+  const smallShip = generateShip(3);
+  const smallerShip = generateShip(2);
 
   // Generate game board by giving coordinates to each position because of to track coordinates
   for (let i = 1; i <= 10; i++) {
@@ -172,63 +172,273 @@ function player() {
 
 function gameLoop() {
   let counter = 0;
+  let axisCounter = 0;
   const gridPlayerBoard = document.querySelector('.grid-player');
   const gridComputerBoard = document.querySelector('.grid-computer');
   const gridPlacement = document.querySelector('.placement-grid');
+  const addButton = document.querySelector('.rotate');
   const newGameBoard = gameBoard();
+
+  // Click button to change axis from x to y
+  addButton.addEventListener('click', () => {
+    axisCounter++;
+  });
 
   function placeBoard() {
     placementGrid = document.querySelectorAll('.placement-grid > div');
     const getId = Number(this.getAttribute('data-id'));
-    if (counter === 0) {
-      for (let i = getId; i < getId + 5; i++) {
-        if (getId % 5 > 0 && getId % 10 > 5) {
-          this.style.backgroundColor = 'red';
-          this.style.cursor = 'not-allowed';
-        } else {
-          placementGrid[i].style.backgroundColor = 'blue';
+    if (axisCounter % 2 === 0) {
+      if (counter === 0) {
+        for (let i = getId; i < getId + 5; i++) {
+          if (getId % 5 > 0 && getId % 10 > 5) {
+            this.style.backgroundColor = 'red';
+            this.style.cursor = 'not-allowed';
+          } else {
+            placementGrid[i].style.backgroundColor = 'blue';
+          }
+        }
+      } else if (counter === 1) {
+        for (let i = getId; i < getId + 4; i++) {
+          if (getId % 5 > 0 && getId % 10 > 6) {
+            this.style.backgroundColor = 'red';
+            this.style.cursor = 'not-allowed';
+          } else {
+            placementGrid[i].style.backgroundColor = 'blue';
+          }
+        }
+      } else if (counter === 2) {
+        for (let i = getId; i < getId + 3; i++) {
+          if (getId % 5 > 0 && getId % 10 > 7) {
+            this.style.backgroundColor = 'red';
+            this.style.cursor = 'not-allowed';
+          } else {
+            placementGrid[i].style.backgroundColor = 'blue';
+          }
+        }
+      } else if (counter === 3) {
+        for (let i = getId; i < getId + 3; i++) {
+          if (getId % 5 > 0 && getId % 10 > 7) {
+            this.style.backgroundColor = 'red';
+            this.style.cursor = 'not-allowed';
+          } else {
+            placementGrid[i].style.backgroundColor = 'blue';
+          }
+        }
+      } else if (counter === 4) {
+        for (let i = getId; i < getId + 2; i++) {
+          if (getId % 5 > 0 && getId % 10 > 8) {
+            this.style.backgroundColor = 'red';
+            this.style.cursor = 'not-allowed';
+          } else {
+            placementGrid[i].style.backgroundColor = 'blue';
+          }
         }
       }
-    } else if (counter === 1) {
-      for (let i = getId; i < getId + 4; i++) {
-        if (getId % 4 > 0 && getId % 10 > 6) {
-          this.style.backgroundColor = 'red';
-          this.style.cursor = 'not-allowed';
-        } else {
-          placementGrid[i].style.backgroundColor = 'blue';
+    } else if (axisCounter % 2 !== 0) {
+      if (counter === 0) {
+        for (let i = getId; i < getId + 50; i++) {
+          if (getId > 59) {
+            this.style.backgroundColor = 'red';
+            this.style.cursor = 'not-allowed';
+          } else {
+            placementGrid[i].style.backgroundColor = 'blue';
+          }
+          i += 9;
+        }
+      } else if (counter === 1) {
+        for (let i = getId; i < getId + 40; i++) {
+          if (getId > 69) {
+            this.style.backgroundColor = 'red';
+            this.style.cursor = 'not-allowed';
+          } else {
+            placementGrid[i].style.backgroundColor = 'blue';
+          }
+          i += 9;
+        }
+      } else if (counter === 2) {
+        for (let i = getId; i < getId + 30; i++) {
+          if (getId > 79) {
+            this.style.backgroundColor = 'red';
+            this.style.cursor = 'not-allowed';
+          } else {
+            placementGrid[i].style.backgroundColor = 'blue';
+          }
+          i += 9;
+        }
+      } else if (counter === 3) {
+        for (let i = getId; i < getId + 30; i++) {
+          if (getId > 79) {
+            this.style.backgroundColor = 'red';
+            this.style.cursor = 'not-allowed';
+          } else {
+            placementGrid[i].style.backgroundColor = 'blue';
+          }
+          i += 9;
+        }
+      } else if (counter === 4) {
+        for (let i = getId; i < getId + 20; i++) {
+          if (getId > 89) {
+            this.style.backgroundColor = 'red';
+            this.style.cursor = 'not-allowed';
+          } else {
+            placementGrid[i].style.backgroundColor = 'blue';
+          }
+          i += 9;
         }
       }
     }
   }
 
   function removeBoard() {
-    placementGrid = document.querySelectorAll('.placement-grid > div');
     const getId = Number(this.getAttribute('data-id'));
-    if (counter === 0) {
-      for (let i = getId; i < getId + 5; i++) {
-        placementGrid[i].style.backgroundColor = '';
+    if (axisCounter % 2 === 0) {
+      if (counter === 0) {
+        for (let i = getId; i < getId + 5; i++) {
+          placementGrid[i].style.backgroundColor = '';
+        }
+      } else if (counter === 1) {
+        for (let i = getId; i < getId + 4; i++) {
+          placementGrid[i].style.backgroundColor = '';
+        }
+      } else if (counter === 2) {
+        for (let i = getId; i < getId + 3; i++) {
+          placementGrid[i].style.backgroundColor = '';
+        }
+      } else if (counter === 3) {
+        for (let i = getId; i < getId + 3; i++) {
+          placementGrid[i].style.backgroundColor = '';
+        }
+      } else if (counter === 4) {
+        for (let i = getId; i < getId + 2; i++) {
+          placementGrid[i].style.backgroundColor = '';
+        }
       }
-    } else if (counter === 1) {
-      for (let i = getId; i < getId + 4; i++) {
-        placementGrid[i].style.backgroundColor = '';
+    } else if (axisCounter % 2 !== 0) {
+      if (counter === 0) {
+        for (let i = getId; i < getId + 50; i++) {
+          if (placementGrid[i].style.backgroundColor !== 'black') {
+            placementGrid[i].style.backgroundColor = '';
+            i += 9;
+          }
+        }
+      } else if (counter === 1) {
+        for (let i = getId; i < getId + 40; i++) {
+          placementGrid[i].style.backgroundColor = '';
+          i += 9;
+        }
+      } else if (counter === 2) {
+        for (let i = getId; i < getId + 30; i++) {
+          placementGrid[i].style.backgroundColor = '';
+          i += 9;
+        }
+      } else if (counter === 3) {
+        for (let i = getId; i < getId + 30; i++) {
+          placementGrid[i].style.backgroundColor = '';
+          i += 9;
+        }
+      } else if (counter === 4) {
+        for (let i = getId; i < getId + 20; i++) {
+          placementGrid[i].style.backgroundColor = '';
+          i += 9;
+        }
       }
     }
   }
 
   function addBoard() {
-    console.log('Game Over!!');
-    placementGrid = document.querySelectorAll('.placement-grid > div');
     const getId = Number(this.getAttribute('data-id'));
-    for (let i = getId; i < getId + 5; i++) {
-      placementGrid[i].style.backgroundColor = 'black';
-      placementGrid[i].removeEventListener('mouseover', placeBoard);
-      placementGrid[i].removeEventListener('mouseout', removeBoard);
-      placementGrid[i].style.pointerEvents = 'none';
-      placementGrid[i].style.cursor = 'not-allowed';
+    if (axisCounter % 2 === 0) {
+      if (counter === 0) {
+        for (let i = getId; i < getId + 5; i++) {
+          placementGrid[i].style.backgroundColor = 'black';
+          placementGrid[i].removeEventListener('mouseover', placeBoard);
+          placementGrid[i].removeEventListener('mouseout', removeBoard);
+          placementGrid[i].style.pointerEvents = 'none';
+          placementGrid[i].style.cursor = 'not-allowed';
+        }
+      } else if (counter === 1) {
+        for (let i = getId; i < getId + 4; i++) {
+          placementGrid[i].style.backgroundColor = 'black';
+          placementGrid[i].removeEventListener('mouseover', placeBoard);
+          placementGrid[i].removeEventListener('mouseout', removeBoard);
+          placementGrid[i].style.pointerEvents = 'none';
+          placementGrid[i].style.cursor = 'not-allowed';
+        }
+      } else if (counter === 2) {
+        for (let i = getId; i < getId + 3; i++) {
+          placementGrid[i].style.backgroundColor = 'black';
+          placementGrid[i].removeEventListener('mouseover', placeBoard);
+          placementGrid[i].removeEventListener('mouseout', removeBoard);
+          placementGrid[i].style.pointerEvents = 'none';
+          placementGrid[i].style.cursor = 'not-allowed';
+        }
+      } else if (counter === 3) {
+        for (let i = getId; i < getId + 3; i++) {
+          placementGrid[i].style.backgroundColor = 'black';
+          placementGrid[i].removeEventListener('mouseover', placeBoard);
+          placementGrid[i].removeEventListener('mouseout', removeBoard);
+          placementGrid[i].style.pointerEvents = 'none';
+          placementGrid[i].style.cursor = 'not-allowed';
+        }
+      } else if (counter === 4) {
+        for (let i = getId; i < getId + 2; i++) {
+          placementGrid[i].style.backgroundColor = 'black';
+          placementGrid[i].removeEventListener('mouseover', placeBoard);
+          placementGrid[i].removeEventListener('mouseout', removeBoard);
+          placementGrid[i].style.pointerEvents = 'none';
+          placementGrid[i].style.cursor = 'not-allowed';
+        }
+      }
+      counter++;
+    } else if (axisCounter % 2 !== 0) {
+      if (counter === 0) {
+        for (let i = getId; i < getId + 50; i++) {
+          placementGrid[i].style.backgroundColor = 'black';
+          placementGrid[i].removeEventListener('mouseover', placeBoard);
+          placementGrid[i].removeEventListener('mouseout', removeBoard);
+          placementGrid[i].style.pointerEvents = 'none';
+          placementGrid[i].style.cursor = 'not-allowed';
+          i += 9;
+        }
+      } else if (counter === 1) {
+        for (let i = getId; i < getId + 40; i++) {
+          placementGrid[i].style.backgroundColor = 'black';
+          placementGrid[i].removeEventListener('mouseover', placeBoard);
+          placementGrid[i].removeEventListener('mouseout', removeBoard);
+          placementGrid[i].style.pointerEvents = 'none';
+          placementGrid[i].style.cursor = 'not-allowed';
+          i += 9;
+        }
+      } else if (counter === 2) {
+        for (let i = getId; i < getId + 30; i++) {
+          placementGrid[i].style.backgroundColor = 'black';
+          placementGrid[i].removeEventListener('mouseover', placeBoard);
+          placementGrid[i].removeEventListener('mouseout', removeBoard);
+          placementGrid[i].style.pointerEvents = 'none';
+          placementGrid[i].style.cursor = 'not-allowed';
+          i += 9;
+        }
+      } else if (counter === 3) {
+        for (let i = getId; i < getId + 30; i++) {
+          placementGrid[i].style.backgroundColor = 'black';
+          placementGrid[i].removeEventListener('mouseover', placeBoard);
+          placementGrid[i].removeEventListener('mouseout', removeBoard);
+          placementGrid[i].style.pointerEvents = 'none';
+          placementGrid[i].style.cursor = 'not-allowed';
+          i += 9;
+        }
+      } else if (counter === 4) {
+        for (let i = getId; i < getId + 20; i++) {
+          placementGrid[i].style.backgroundColor = 'black';
+          placementGrid[i].removeEventListener('mouseover', placeBoard);
+          placementGrid[i].removeEventListener('mouseout', removeBoard);
+          placementGrid[i].style.pointerEvents = 'none';
+          placementGrid[i].style.cursor = 'not-allowed';
+          i += 9;
+        }
+      }
     }
-    counter++;
   }
-
   for (let p = 0; p < newGameBoard.newCoordinates.length; p++) {
     const newDiv = document.createElement('div');
     newDiv.setAttribute('data-id', p);
