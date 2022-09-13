@@ -131,13 +131,13 @@ function gameBoard() {
   return { newCoordinates, biggestShip, receiveAttack };
 }
 
-let allGrid = document.querySelectorAll('.grid-player > div');
+let playersGrid = document.querySelectorAll('.grid-player > div');
+let placementGrid = document.querySelectorAll('.placement-grid > div');
 const randomNumber = [];
 
 function player() {
-  allGrid = document.querySelectorAll('.grid-player > div');
-  let computer = Math.floor(Math.random() * 100);
-  let attackColor; // const computer = Math.floor(Math.random() * 100); // Generate random number to attack the random coordinates
+  playersGrid = document.querySelectorAll('.grid-player > div');
+  let computer = Math.floor(Math.random() * 100); // const computer = Math.floor(Math.random() * 100); // Generate random number to attack the random coordinates
   while (randomNumber.includes(computer)) {
     computer = Math.floor(Math.random() * 100);
   }
@@ -145,24 +145,25 @@ function player() {
   console.log(randomNumber);
   console.log(this.getAttribute('id'));
   this.style.backgroundColor = 'blue';
+
   for (let n = 0; n < occupiedCoordinates.length; n++) {
     if (JSON.stringify(occupiedCoordinates[n]) === this.getAttribute('id')) {
       this.style.backgroundColor = 'red';
     }
   }
 
-  for (let k = 0; k < allGrid.length; k++) {
+  for (let k = 0; k < playersGrid.length; k++) {
     if (
-      allGrid[k].getAttribute('data-id') ===
+      playersGrid[k].getAttribute('data-id') ===
       String(randomNumber[randomNumber.length - 1])
     ) {
-      allGrid[k].style.backgroundColor = 'black';
+      playersGrid[k].style.backgroundColor = 'black';
       for (let m = 0; m < occupiedCoordinates.length; m++) {
         if (
           JSON.stringify(occupiedCoordinates[m]) ===
-          allGrid[k].getAttribute('id')
+          playersGrid[k].getAttribute('id')
         ) {
-          allGrid[k].style.backgroundColor = 'red';
+          playersGrid[k].style.backgroundColor = 'red';
         }
       }
     }
@@ -170,10 +171,63 @@ function player() {
 }
 
 function gameLoop() {
+  let counter = 0;
   const gridPlayerBoard = document.querySelector('.grid-player');
   const gridComputerBoard = document.querySelector('.grid-computer');
   const gridPlacement = document.querySelector('.placement-grid');
   const newGameBoard = gameBoard();
+
+  function placeBoard() {
+    placementGrid = document.querySelectorAll('.placement-grid > div');
+    const getId = Number(this.getAttribute('data-id'));
+    if (counter === 0) {
+      for (let i = getId; i < getId + 5; i++) {
+        if (getId % 5 > 0 && getId % 10 > 5) {
+          this.style.backgroundColor = 'red';
+          this.style.cursor = 'not-allowed';
+        } else {
+          placementGrid[i].style.backgroundColor = 'blue';
+        }
+      }
+    } else if (counter === 1) {
+      for (let i = getId; i < getId + 4; i++) {
+        if (getId % 4 > 0 && getId % 10 > 6) {
+          this.style.backgroundColor = 'red';
+          this.style.cursor = 'not-allowed';
+        } else {
+          placementGrid[i].style.backgroundColor = 'blue';
+        }
+      }
+    }
+  }
+
+  function removeBoard() {
+    placementGrid = document.querySelectorAll('.placement-grid > div');
+    const getId = Number(this.getAttribute('data-id'));
+    if (counter === 0) {
+      for (let i = getId; i < getId + 5; i++) {
+        placementGrid[i].style.backgroundColor = '';
+      }
+    } else if (counter === 1) {
+      for (let i = getId; i < getId + 4; i++) {
+        placementGrid[i].style.backgroundColor = '';
+      }
+    }
+  }
+
+  function addBoard() {
+    console.log('Game Over!!');
+    placementGrid = document.querySelectorAll('.placement-grid > div');
+    const getId = Number(this.getAttribute('data-id'));
+    for (let i = getId; i < getId + 5; i++) {
+      placementGrid[i].style.backgroundColor = 'black';
+      placementGrid[i].removeEventListener('mouseover', placeBoard);
+      placementGrid[i].removeEventListener('mouseout', removeBoard);
+      placementGrid[i].style.pointerEvents = 'none';
+      placementGrid[i].style.cursor = 'not-allowed';
+    }
+    counter++;
+  }
 
   for (let p = 0; p < newGameBoard.newCoordinates.length; p++) {
     const newDiv = document.createElement('div');
@@ -182,6 +236,9 @@ function gameLoop() {
     newDiv.style.width = '10%';
     newDiv.style.height = '10%';
     newDiv.style.border = '1px solid black';
+    newDiv.addEventListener('mouseover', placeBoard);
+    newDiv.addEventListener('mouseout', removeBoard);
+    newDiv.addEventListener('click', addBoard);
     gridPlacement.appendChild(newDiv);
   }
 
@@ -206,6 +263,7 @@ function gameLoop() {
     gridComputerBoard.appendChild(newCoord);
   }
 }
+
 gameLoop();
 
 export default gameLoop;
