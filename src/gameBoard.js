@@ -173,6 +173,8 @@ function player() {
 function gameLoop() {
   let counter = 0;
   let axisCounter = 0;
+  let axisVertical = 0;
+  const shipAxis = [];
   const gridPlayerBoard = document.querySelector('.grid-player');
   const gridComputerBoard = document.querySelector('.grid-computer');
   const gridPlacement = document.querySelector('.placement-grid');
@@ -182,6 +184,7 @@ function gameLoop() {
   // Click button to change axis from x to y
   addButton.addEventListener('click', () => {
     axisCounter++;
+    axisVertical += 3;
   });
 
   function placeBoard() {
@@ -199,7 +202,10 @@ function gameLoop() {
         }
       } else if (counter === 1) {
         for (let i = getId; i < getId + 4; i++) {
-          if (getId % 5 > 0 && getId % 10 > 6) {
+          if (
+            (getId % 5 > 0 && getId % 10 > 6) ||
+            (getId > shipAxis[0] - 4 && getId < shipAxis[0])
+          ) {
             this.style.backgroundColor = 'red';
             this.style.cursor = 'not-allowed';
           } else {
@@ -208,7 +214,11 @@ function gameLoop() {
         }
       } else if (counter === 2) {
         for (let i = getId; i < getId + 3; i++) {
-          if (getId % 5 > 0 && getId % 10 > 7) {
+          if (
+            (getId % 5 > 0 && getId % 10 > 7) ||
+            (getId > shipAxis[1] - 3 && getId < shipAxis[1]) ||
+            (getId > shipAxis[0] - 3 && getId < shipAxis[0])
+          ) {
             this.style.backgroundColor = 'red';
             this.style.cursor = 'not-allowed';
           } else {
@@ -217,7 +227,12 @@ function gameLoop() {
         }
       } else if (counter === 3) {
         for (let i = getId; i < getId + 3; i++) {
-          if (getId % 5 > 0 && getId % 10 > 7) {
+          if (
+            (getId % 5 > 0 && getId % 10 > 7) ||
+            (getId > shipAxis[2] - 3 && getId < shipAxis[2]) ||
+            (getId > shipAxis[1] - 3 && getId < shipAxis[1]) ||
+            (getId > shipAxis[0] - 3 && getId < shipAxis[0])
+          ) {
             this.style.backgroundColor = 'red';
             this.style.cursor = 'not-allowed';
           } else {
@@ -226,7 +241,13 @@ function gameLoop() {
         }
       } else if (counter === 4) {
         for (let i = getId; i < getId + 2; i++) {
-          if (getId % 5 > 0 && getId % 10 > 8) {
+          if (
+            (getId % 5 > 0 && getId % 10 > 8) ||
+            (getId > shipAxis[2] - 2 && getId < shipAxis[2]) ||
+            (getId > shipAxis[1] - 2 && getId < shipAxis[1]) ||
+            (getId > shipAxis[0] - 2 && getId < shipAxis[0]) ||
+            (getId > shipAxis[3] - 2 && getId < shipAxis[3])
+          ) {
             this.style.backgroundColor = 'red';
             this.style.cursor = 'not-allowed';
           } else {
@@ -247,13 +268,34 @@ function gameLoop() {
         }
       } else if (counter === 1) {
         for (let i = getId; i < getId + 40; i++) {
-          if (getId > 69) {
-            this.style.backgroundColor = 'red';
-            this.style.cursor = 'not-allowed';
-          } else {
-            placementGrid[i].style.backgroundColor = 'blue';
+          if (axisVertical % 3 === 0) {
+            if (
+              getId > 69 ||
+              (getId < shipAxis[0] - 5 && getId > shipAxis[0] - 11) ||
+              (getId < shipAxis[0] - 15 && getId > shipAxis[0] - 21) ||
+              (getId < shipAxis[0] - 25 && getId > shipAxis[0] - 31)
+            ) {
+              this.style.backgroundColor = 'red';
+              this.style.cursor = 'not-allowed';
+            } else {
+              placementGrid[i].style.backgroundColor = 'blue';
+            }
+            i += 9;
+          } else if (axisVertical % 3 !== 0) {
+            if (
+              getId > 69 ||
+              getId === shipAxis[0] - 10 ||
+              getId === shipAxis[0] - 20 ||
+              getId === shipAxis[0] - 30 ||
+              getId === shipAxis[0] - 40
+            ) {
+              this.style.backgroundColor = 'red';
+              this.style.cursor = 'pointer';
+            } else {
+              placementGrid[i].style.backgroundColor = 'blue';
+            }
+            i += 9;
           }
-          i += 9;
         }
       } else if (counter === 2) {
         for (let i = getId; i < getId + 30; i++) {
@@ -298,19 +340,27 @@ function gameLoop() {
         }
       } else if (counter === 1) {
         for (let i = getId; i < getId + 4; i++) {
-          placementGrid[i].style.backgroundColor = '';
+          if (placementGrid[i].style.backgroundColor !== 'black') {
+            placementGrid[i].style.backgroundColor = '';
+          }
         }
       } else if (counter === 2) {
         for (let i = getId; i < getId + 3; i++) {
-          placementGrid[i].style.backgroundColor = '';
+          if (placementGrid[i].style.backgroundColor !== 'black') {
+            placementGrid[i].style.backgroundColor = '';
+          }
         }
       } else if (counter === 3) {
         for (let i = getId; i < getId + 3; i++) {
-          placementGrid[i].style.backgroundColor = '';
+          if (placementGrid[i].style.backgroundColor !== 'black') {
+            placementGrid[i].style.backgroundColor = '';
+          }
         }
       } else if (counter === 4) {
         for (let i = getId; i < getId + 2; i++) {
-          placementGrid[i].style.backgroundColor = '';
+          if (placementGrid[i].style.backgroundColor !== 'black') {
+            placementGrid[i].style.backgroundColor = '';
+          }
         }
       }
     } else if (axisCounter % 2 !== 0) {
@@ -323,8 +373,10 @@ function gameLoop() {
         }
       } else if (counter === 1) {
         for (let i = getId; i < getId + 40; i++) {
-          placementGrid[i].style.backgroundColor = '';
-          i += 9;
+          if (placementGrid[i].style.backgroundColor !== 'black') {
+            placementGrid[i].style.backgroundColor = '';
+            i += 9;
+          }
         }
       } else if (counter === 2) {
         for (let i = getId; i < getId + 30; i++) {
@@ -347,6 +399,8 @@ function gameLoop() {
 
   function addBoard() {
     const getId = Number(this.getAttribute('data-id'));
+    shipAxis.push(getId);
+    console.log(shipAxis);
     if (axisCounter % 2 === 0) {
       if (counter === 0) {
         for (let i = getId; i < getId + 5; i++) {
@@ -437,6 +491,7 @@ function gameLoop() {
           i += 9;
         }
       }
+      counter++;
     }
   }
   for (let p = 0; p < newGameBoard.newCoordinates.length; p++) {
