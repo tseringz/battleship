@@ -173,7 +173,8 @@ function player() {
 function gameLoop() {
   let counter = 0;
   let axisCounter = 0;
-  let axisVertical = 0;
+  let axisVertical = 1;
+  let verticalCounter = 0;
   const shipAxis = [];
   const gridPlayerBoard = document.querySelector('.grid-player');
   const gridComputerBoard = document.querySelector('.grid-computer');
@@ -184,7 +185,7 @@ function gameLoop() {
   // Click button to change axis from x to y
   addButton.addEventListener('click', () => {
     axisCounter++;
-    axisVertical += 3;
+    axisVertical++;
   });
 
   function placeBoard() {
@@ -204,7 +205,11 @@ function gameLoop() {
         for (let i = getId; i < getId + 4; i++) {
           if (
             (getId % 5 > 0 && getId % 10 > 6) ||
-            (getId > shipAxis[0] - 4 && getId < shipAxis[0])
+            (getId > shipAxis[0] - 4 && getId < shipAxis[0]) ||
+            (getId > shipAxis[0] + 10 - 4 && getId < shipAxis[0] + 10) ||
+            (getId > shipAxis[0] + 20 - 4 && getId < shipAxis[0] + 20) ||
+            (getId > shipAxis[0] + 30 - 4 && getId < shipAxis[0] + 30) ||
+            (getId > shipAxis[0] + 40 - 4 && getId < shipAxis[0] + 40)
           ) {
             this.style.backgroundColor = 'red';
             this.style.cursor = 'not-allowed';
@@ -217,7 +222,11 @@ function gameLoop() {
           if (
             (getId % 5 > 0 && getId % 10 > 7) ||
             (getId > shipAxis[1] - 3 && getId < shipAxis[1]) ||
-            (getId > shipAxis[0] - 3 && getId < shipAxis[0])
+            (getId > shipAxis[0] - 3 && getId < shipAxis[0]) ||
+            (getId > shipAxis[0] + 10 - 3 && getId < shipAxis[0] + 10) ||
+            (getId > shipAxis[0] + 20 - 3 && getId < shipAxis[0] + 20) ||
+            (getId > shipAxis[0] + 30 - 3 && getId < shipAxis[0] + 30) ||
+            (getId > shipAxis[0] + 40 - 3 && getId < shipAxis[0] + 40)
           ) {
             this.style.backgroundColor = 'red';
             this.style.cursor = 'not-allowed';
@@ -268,7 +277,7 @@ function gameLoop() {
         }
       } else if (counter === 1) {
         for (let i = getId; i < getId + 40; i++) {
-          if (axisVertical % 3 === 0) {
+          if (verticalCounter % 2 === 0) {
             if (
               getId > 69 ||
               (getId < shipAxis[0] - 5 && getId > shipAxis[0] - 11) ||
@@ -281,13 +290,12 @@ function gameLoop() {
               placementGrid[i].style.backgroundColor = 'blue';
             }
             i += 9;
-          } else if (axisVertical % 3 !== 0) {
+          } else if (verticalCounter % 2 !== 0) {
             if (
               getId > 69 ||
               getId === shipAxis[0] - 10 ||
               getId === shipAxis[0] - 20 ||
-              getId === shipAxis[0] - 30 ||
-              getId === shipAxis[0] - 40
+              getId === shipAxis[0] - 30
             ) {
               this.style.backgroundColor = 'red';
               this.style.cursor = 'pointer';
@@ -299,7 +307,12 @@ function gameLoop() {
         }
       } else if (counter === 2) {
         for (let i = getId; i < getId + 30; i++) {
-          if (getId > 79) {
+          if (
+            getId > 79 ||
+            (getId < shipAxis[0] - 5 && getId > shipAxis[0] - 11) ||
+            (getId < shipAxis[0] - 15 && getId > shipAxis[0] - 21) ||
+            (getId < shipAxis[0] - 25 && getId > shipAxis[0] - 31)
+          ) {
             this.style.backgroundColor = 'red';
             this.style.cursor = 'not-allowed';
           } else {
@@ -454,6 +467,7 @@ function gameLoop() {
           placementGrid[i].style.cursor = 'not-allowed';
           i += 9;
         }
+        verticalCounter++;
       } else if (counter === 1) {
         for (let i = getId; i < getId + 40; i++) {
           placementGrid[i].style.backgroundColor = 'black';
