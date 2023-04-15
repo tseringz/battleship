@@ -2,6 +2,7 @@ function generateShip(shipLength) {
   const ship = {
     length: shipLength,
     hitCounter: [],
+    position: [],
     hit: function (hitCoordinate) {
       if (this.hitCounter.length < shipLength) {
         this.hitCounter.push(hitCoordinate);
