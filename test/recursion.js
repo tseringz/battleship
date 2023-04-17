@@ -1,4 +1,3 @@
-
 // function print(n) {
 //     if(n == 5) {
 //         return;
@@ -7,8 +6,6 @@
 //     print(n + 1);
 // }
 // print(1);
-
-
 // function print1(n) {
 //     if(n === 1) {
 //         console.log(n);
@@ -45,4 +42,16 @@ function fibs(n) {
 fibs(11);
 
 console.log(arr);
+
+function fibo1(n) {
+    if ( n < 2) 
+        return n;
+    return fibo1(n - 1) + fibo1(n - 2);
+}
+
+console.log(fibo1(50));
+
+let arr2 = [23,45,67,123,2,56,89,11];
+
+
 

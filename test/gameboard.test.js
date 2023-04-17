@@ -3,7 +3,6 @@ const gameBoard = require('../src/gameBoard');
 
 describe('Game board module', () => {
   let newGameBoard;
-  let ship1 = generateShip(5);
   beforeEach(() => {
     newGameBoard = gameBoard();
   })
@@ -13,16 +12,59 @@ describe('Game board module', () => {
   });
 
   test('coordinates value is null', () => {
-    expect(newGameBoard.coordinates[2]).toEqual(null);
+    expect(newGameBoard.coordinates[12]).toEqual(null);
   })
 
   test('Place the biggest ship at the board', () => {
-    newGameBoard.placeShip(ship1, 5);
-    expect(ship1.ship.position).toEqual([5, 6, 7, 8, 9]);
+    newGameBoard.placeShip(newGameBoard.carrier, 5);
+    expect(newGameBoard.carrier.ship.position).toEqual([5, 6, 7, 8, 9]);
   });
 
-  test('Place the bigger ship at the board', () => {
-    expect(newGameBoard.placeShip('biggerShip', 'vertical', 13)).toEqual();
+  test('receive attack at the unoccupied area of the board', () => {
+    newGameBoard.placeShip(newGameBoard.carrier, 13);
+    newGameBoard.receiveAttack(20);
+    expect(newGameBoard.coordinates[20]).toEqual('Miss');
+  });
+
+  test('receive attack at the carrier ship', () => {
+    newGameBoard.placeShip(newGameBoard.carrier, 13);
+    newGameBoard.receiveAttack(17);
+    expect(newGameBoard.carrier.ship.hitCounter.length).toBe(1);
+  })
+
+  test('receive multiple attack at the carrier ship', () => {
+    newGameBoard.placeShip(newGameBoard.carrier, 13);
+    newGameBoard.receiveAttack(13);
+    newGameBoard.receiveAttack(14);
+    newGameBoard.receiveAttack(15);
+    newGameBoard.receiveAttack(16);
+    newGameBoard.receiveAttack(17);
+    expect(newGameBoard.carrier.ship.hitCounter.length).toBe(5);
+  })
+
+  test('check if carrier ship gets hit', () => {
+    newGameBoard.placeShip(newGameBoard.carrier, 13);
+    newGameBoard.receiveAttack(15);
+    expect(newGameBoard.carrier.ship.hitCounter[0]).toEqual("Hit");
+  })
+
+  test('check if carrier sunk when received 5 attack', () => {
+    newGameBoard.placeShip(newGameBoard.carrier, 13);
+    newGameBoard.receiveAttack(13);
+    newGameBoard.receiveAttack(14);
+    newGameBoard.receiveAttack(15);
+    newGameBoard.receiveAttack(16);
+    newGameBoard.receiveAttack(17);
+    expect(newGameBoard.carrier.ship.isSunk()).toBeTruthy();
+  })
+
+  test('check if carrier sunk when received 5 attack', () => {
+    newGameBoard.placeShip(newGameBoard.carrier, 13);
+    newGameBoard.receiveAttack(13);
+    newGameBoard.receiveAttack(14);
+    newGameBoard.receiveAttack(15);
+    newGameBoard.receiveAttack(16);
+    expect(newGameBoard.carrier.ship.isSunk()).toBeFalsy();
   })
 
 });
