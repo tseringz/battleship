@@ -1,4 +1,3 @@
-const generateShip = require('../src/ship');
 const gameBoard = require('../src/gameBoard');
 
 describe('Game board module', () => {

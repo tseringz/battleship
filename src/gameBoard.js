@@ -1,9 +1,5 @@
 const generateShip = require('./ship');
 
-const missedCoordinates = [];
-const occupiedCoordinates = [];
-
-
 
 function gameBoard() {
   let coordinates = [];
