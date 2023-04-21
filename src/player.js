@@ -9,29 +9,19 @@ function Players() {
 
    function playerTurn() {
     playerOne = false;
-    computer = Math.floor(Math.random() * 100);
+    if(playerOne === false) {
+        computer = Math.floor(Math.random() * 100);
     while(randomArray.includes(computer)) {
         computer = Math.floor(Math.random() * 100);
     }
     randomArray.push(computer);
+    playerOne = true;
+   }
+    
    }
 
  return {playerOne, computer, playerTurn, randomArray}
 
 }
-
-const newPlayer = Players();
-
-for(let i = 0; i < 100; i++) {
-    newPlayer.playerTurn();
-}
-
-function findDuplicates(arr) {
-    return arr.filter((currentValue, currentIndex) =>
-    arr.indexOf(currentValue) !== currentIndex);
- }
- const newArray = findDuplicates(newPlayer.randomArray);
-console.log(newPlayer.randomArray);
-console.log(newArray)
 
 module.exports = Players;

@@ -14,7 +14,7 @@ function gameBoard() {
 
   function generateCoordinates() {
     for (let i = 0; i < 100; i++) {
-      coordinates.push(null);
+      coordinates.push('null');
     }
   }
   generateCoordinates();
@@ -71,7 +71,6 @@ function gameBoard() {
       }
     }
     
-
     function shipSunk() {
       if (carrier.ship.isSunk() === true && battleShip.ship.isSunk() === true && 
       destroyer.ship.isSunk() === true && submarine.ship.isSunk() === true && patrol.ship.isSunk() === true ) {
@@ -81,6 +80,13 @@ function gameBoard() {
       }
     }
     shipSunk();
+
+    // Placing all the ship at different coordinates
+    placeShip(carrier, 4);
+    placeShip(battleShip, 15);
+    placeShip(destroyer, 40);
+    placeShip(submarine, 60);
+    placeShip(patrol, 80);
 
     return {carrier, coordinates, missAttacks, placeShip, receiveAttack};
 

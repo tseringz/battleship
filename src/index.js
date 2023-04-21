@@ -1,5 +1,7 @@
 import './style/main.scss';
 import generateShip from './ship';
-import gameLoop from './gameBoard';
+import {gameStart, gameModal} from './gameBoardUI';
 
 console.log('Hi this is crazy');
+
+gameModal();

@@ -51,10 +51,15 @@ img {
   margin-bottom: 20px;
 }
 
-.grid-player,.grid-computer,.placement-grid {
+.player-board,.computer-board,.placement-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  border: 0.5px solid black;
   width: 400px;
   height: 400px;
 }
+
 
 .btn {
   background-color: $primary-color;
