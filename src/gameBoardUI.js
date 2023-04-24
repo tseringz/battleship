@@ -7,6 +7,7 @@ const newGameBoard = gameBoard();
 
 const playerBoard = document.querySelector('.player-board');
 const computerBoard = document.querySelector('.computer-board');
+const placementBoard = document.querySelector('.placement-grid');
 let newGrid;
 
 for(let i = 0; i < 100; i++) {
@@ -25,12 +26,20 @@ for(let i = 0; i < 100; i++) {
     computerBoard.appendChild(newGrid);
     }
 
+for(let i = 0; i < 100; i++) {
+     newGrid = document.createElement('button');
+     newGrid.value = `${newGameBoard.coordinates[i]}`;
+     newGrid.classList.add('ship-placement-grid');
+     newGrid.style.border = '0.5px solid black';
+     placementBoard.appendChild(newGrid);
+    }
+
     return {newPlayers}
 }
 
 function gameModal() {
     const newGame = gameStart();
-    const playerBoardGrids = Array.from(document.querySelectorAll('.player-grid'));
+    const playerBoardGrids = document.querySelectorAll('.player-grid');
     const computerBoardGrids = document.querySelectorAll('.computer-grid');
 
  computerBoardGrids.forEach(computerBoardGrid => {
@@ -60,4 +69,13 @@ function gameModal() {
 }
 }
 
-export {gameStart, gameModal};
+function placeShips() {
+    const playerBoardGrids = document.querySelectorAll('.ship-placement-grid');
+    for(let i = 0; i < 5; i++) {
+        playerBoardGrids[i].addEventListener('mouseover', () => {  
+                playerBoardGrids[i].style.backgroundColor = 'blue';
+            });
+        }
+    }
+    
+export {gameModal, placeShips};

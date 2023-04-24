@@ -118,7 +118,7 @@ module.exports = gameBoard;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "gameModal": () => (/* binding */ gameModal),
-/* harmony export */   "gameStart": () => (/* binding */ gameStart)
+/* harmony export */   "placeShips": () => (/* binding */ placeShips)
 /* harmony export */ });
 var gameBoard = __webpack_require__(/*! ./gameBoard */ "./src/gameBoard.js");
 
@@ -129,6 +129,7 @@ function gameStart() {
   var newGameBoard = gameBoard();
   var playerBoard = document.querySelector('.player-board');
   var computerBoard = document.querySelector('.computer-board');
+  var placementBoard = document.querySelector('.placement-grid');
   var newGrid;
 
   for (var i = 0; i < 100; i++) {
@@ -147,6 +148,14 @@ function gameStart() {
     computerBoard.appendChild(newGrid);
   }
 
+  for (var _i2 = 0; _i2 < 100; _i2++) {
+    newGrid = document.createElement('button');
+    newGrid.value = "".concat(newGameBoard.coordinates[_i2]);
+    newGrid.classList.add('ship-placement-grid');
+    newGrid.style.border = '0.5px solid black';
+    placementBoard.appendChild(newGrid);
+  }
+
   return {
     newPlayers: newPlayers
   };
@@ -154,7 +163,7 @@ function gameStart() {
 
 function gameModal() {
   var newGame = gameStart();
-  var playerBoardGrids = Array.from(document.querySelectorAll('.player-grid'));
+  var playerBoardGrids = document.querySelectorAll('.player-grid');
   var computerBoardGrids = document.querySelectorAll('.computer-grid');
   computerBoardGrids.forEach(function (computerBoardGrid) {
     computerBoardGrid.addEventListener('click', function (e) {
@@ -182,6 +191,20 @@ function gameModal() {
         }
       }
     }
+  }
+}
+
+function placeShips() {
+  var playerBoardGrids = document.querySelectorAll('.ship-placement-grid');
+
+  var _loop = function _loop(i) {
+    playerBoardGrids[i].addEventListener('mouseover', function () {
+      playerBoardGrids[i].style.backgroundColor = 'blue';
+    });
+  };
+
+  for (var i = 0; i < 5; i++) {
+    _loop(i);
   }
 }
 
@@ -895,8 +918,9 @@ __webpack_require__.r(__webpack_exports__);
 
 console.log('Hi this is crazy');
 (0,_gameBoardUI__WEBPACK_IMPORTED_MODULE_2__.gameModal)();
+(0,_gameBoardUI__WEBPACK_IMPORTED_MODULE_2__.placeShips)();
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=main5f416f2c6d59c84c8179.js.map
+//# sourceMappingURL=main5596d79e465d7fc33764.js.map
